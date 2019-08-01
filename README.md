@@ -27,6 +27,9 @@ instance.createEvent();
 ## Documentation
 Documentation for the NodeJS implementation can be found at https://nodejs.org/api/events.html#events_class_eventemitter
 
+## Dependancies
+None!
+
 ### Differences (between this and NodeJS version)
 * No runtime type checks (Deno / TypeScript support compile time checks)
 * No .listener() method yet (see [issue#1](https://github.com/ozjd/deno_EventEmitter/issues/1))
