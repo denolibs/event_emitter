@@ -30,6 +30,9 @@ Documentation for the NodeJS implementation can be found at https://nodejs.org/a
 ## Dependancies
 None!
 
+## Permissions
+None!
+
 ## Differences (between this and NodeJS version)
 * No runtime type checks (Deno / TypeScript support compile time checks)
 * No .listener() method yet (see [issue#1](https://github.com/ozjd/deno_EventEmitter/issues/1))
