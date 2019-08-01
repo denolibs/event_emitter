@@ -1,10 +1,10 @@
-# deno_EventEmitter
+# deno_event_emitter
 A NodeJS-like EventEmitter for Deno written in 100% Typescript.
 
 ## Recommended Usage:
 
 ```TypeScript
-import EventEmitter from 'https://raw.github.com/ozjd/deno_EventEmitter/master/mod.ts';
+import EventEmitter from 'https://raw.github.com/ozjd/deno_event_emitter/master/mod.ts';
 
 class NewClass extends EventEmitter {
   public constructor() {
@@ -35,10 +35,10 @@ None!
 
 ## Differences (between this and NodeJS version)
 * No runtime type checks (Deno / TypeScript support compile time checks)
-* No .listener() method yet (see [issue#1](https://github.com/ozjd/deno_EventEmitter/issues/1))
+* No .listener() method yet (see [issue#1](https://github.com/ozjd/deno_event_emitter/issues/1))
 * Error handling may require some more work.
 
 ## Licensing
-Licensed under the permissive MIT license. See [LICENCE file](https://github.com/ozjd/deno_EventEmitter/blob/master/LICENSE) for more informatin
+Licensed under the permissive MIT license. See [LICENCE file](https://github.com/ozjd/deno_event_emitter/blob/master/LICENSE) for more informatin
 
 # Pull requests welcome!
