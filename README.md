@@ -37,6 +37,7 @@ None!
 * No runtime type checks (Deno / TypeScript support compile time checks)
 * No .listener() method yet (see [issue#1](https://github.com/ozjd/deno_event_emitter/issues/1))
 * Error handling may require some more work.
+* Does not implemented deprecated methods
 
 ## Licensing
 Licensed under the permissive MIT license. See [LICENCE file](https://github.com/ozjd/deno_event_emitter/blob/master/LICENSE) for more informatin
