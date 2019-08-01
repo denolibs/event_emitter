@@ -1,15 +1,9 @@
 /*
- * EventEmitter for Deno - Copyright (c) 2019 Joshua Davison <https://github.com/ozjd>
- * License: MIT License
- * Documentation: https://nodejs.org/api/events.html#events_class_eventemitter
+ * EventEmitter for Deno
  *
- * Recommended Usage:
- * import EventEmitter from 'https://raw.github.com/ozjd/deno_EventEmitter/master/mod.ts';
- * class NewClass extends EventEmitter {
- *   constructor() {
- *     super();
- *   }
- * }
+ * Homepage: https://github.com/ozjd/deno_EventEmitter
+ * MIT License - Copyright (c) 2019 Joshua Davison and contributors
+ * Documentation: https://nodejs.org/api/events.html#events_class_eventemitter
  */
 
 class EventEmitter {
