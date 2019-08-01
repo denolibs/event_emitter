@@ -1,5 +1,6 @@
 /*
- * EventEmitter for Deno by OzJD <https://github.com/ozjd>
+ * EventEmitter for Deno - Copyright (c) 2019 Joshua Davison <https://github.com/ozjd>
+ * License: MIT License
  * Documentation: https://nodejs.org/api/events.html#events_class_eventemitter
  *
  * Recommended Usage:
