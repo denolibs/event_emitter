@@ -30,12 +30,12 @@ Documentation for the NodeJS implementation can be found at https://nodejs.org/a
 ## Dependancies
 None!
 
-### Differences (between this and NodeJS version)
+## Differences (between this and NodeJS version)
 * No runtime type checks (Deno / TypeScript support compile time checks)
 * No .listener() method yet (see [issue#1](https://github.com/ozjd/deno_EventEmitter/issues/1))
 * Error handling may require some more work.
 
-### Licensing
+## Licensing
 Licensed under the permissive MIT license. See [LICENCE file](https://github.com/ozjd/deno_EventEmitter/blob/master/LICENSE) for more informatin
 
 # Pull requests welcome!
