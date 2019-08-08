@@ -1,16 +1,15 @@
 import { runTests, test } from "https://deno.land/std/testing/mod.ts";
 import {
-  //  assert,
   assertEquals,
   assertNotEquals
 } from "https://deno.land/std/testing/asserts.ts";
-import EventEmitter from "./mod.ts"
+import EventEmitter from "./mod.ts";
 
-// function hasListenerProp(cur: any): boolean {
-//   return cur.hasOwnProperty("listener");
-// }
+function hasListenerProp(cur: any): boolean {
+  return cur.hasOwnProperty("listener");
+}
 
-function eventListener1() : void {
+function eventListener1(): void {
   console.log("First event occured!");
 }
 
@@ -85,17 +84,6 @@ test(function emitWithCallbackParameters(): void {
   assertEquals(myEmitter.emit("eventName", 200, "OK"), true);
 });
 
-// test(function listenerAccessOnceWrapper(): void {
-//   const myEmitter = new EventEmitter();
-//   myEmitter.once("eventNameOnce", eventListener1);
-//   myEmitter.once("eventNameOnce", eventListener2);
-//   myEmitter.once("eventNameOnce", eventListener3);
-//   myEmitter.once("eventNameOnce", eventListener4);
-//   const listOfListeners: Function[] = myEmitter.listeners("eventNameOnce");
-//
-//   assertEquals(listOfListeners.every(hasListenerProp), true);
-// });
-
 test(function emitOnce(): void {
   const myEmitter = new EventEmitter();
 
@@ -142,6 +130,16 @@ test(function getListenersOfEventName(): void {
 
   assertEquals(myEmitter.listeners("eventName1"), eventListenersTrue);
   assertNotEquals(myEmitter.listeners("eventName1"), eventListenersFalse);
+});
+
+test(function listenerAccessOnRawListeners(): void {
+  const myEmitter = new EventEmitter();
+  myEmitter.once("eventNameOnce", eventListener1);
+  myEmitter.once("eventNameOnce", eventListener2);
+  myEmitter.once("eventNameOnce", eventListener3);
+  myEmitter.once("eventNameOnce", eventListener4);
+  const listOfListeners: Function[] = myEmitter.rawListeners("eventNameOnce");
+  assertEquals(listOfListeners.every(hasListenerProp), true);
 });
 
 test(function getDefaultMaxListeners(): void {

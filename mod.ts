@@ -15,8 +15,12 @@ class EventEmitter {
     this.events = new Map();
   }
 
-  private _addListener(eventName: string | symbol, listener: Function, prepend: boolean): EventEmitter {
-    this.emit('newListener', eventName, listener);
+  private _addListener(
+    eventName: string | symbol,
+    listener: Function,
+    prepend: boolean
+  ): EventEmitter {
+    this.emit("newListener", eventName, listener);
     if (this.events.has(eventName)) {
       const listeners = this.events.get(eventName) as Function[];
       if (prepend) {
@@ -32,16 +36,19 @@ class EventEmitter {
       const warning = new Error(
         `Possible EventEmitter memory leak detected.
          ${this.listenerCount(eventName)} ${eventName.toString()} listeners.
-         Use emitter.setMaxListeners() to increase limit`,
+         Use emitter.setMaxListeners() to increase limit`
       );
-      warning.name = 'MaxListenersExceededWarning';
+      warning.name = "MaxListenersExceededWarning";
       console.warn(warning);
     }
 
     return this;
   }
 
-  public addListener(eventName: string | symbol, listener: Function): EventEmitter {
+  public addListener(
+    eventName: string | symbol,
+    listener: Function
+  ): EventEmitter {
     return this._addListener(eventName, listener, false);
   }
 
@@ -53,12 +60,12 @@ class EventEmitter {
         try {
           listener.apply(this, args);
         } catch (err) {
-          this.emit('error', err);
+          this.emit("error", err);
         }
       }
       return true;
-    } else if (eventName === 'error') {
-      const errMsg = args.length > 0 ? args[0] : Error('Unhandled error.');
+    } else if (eventName === "error") {
+      const errMsg = args.length > 0 ? args[0] : Error("Unhandled error.");
       throw errMsg;
     }
     return false;
@@ -80,9 +87,35 @@ class EventEmitter {
     }
   }
 
+  _listeners(
+    target: EventEmitter,
+    eventName: string | symbol,
+    unwrap: boolean
+  ): Function[] {
+    if (!target.events.has(eventName)) {
+      return [];
+    }
+    const eventListeners: Function[] = target.events.get(eventName) as Function[];
+
+    return unwrap
+      ? this.unwrapListeners(eventListeners)
+      : eventListeners.slice(0);
+  }
+
+  private unwrapListeners(arr: Function[]): Function[] {
+    let unwrappedListeners: Function[] = new Array(arr.length) as Function[];
+    for (let i = 0; i < arr.length; i++) {
+      unwrappedListeners[i] = arr[i]["listener"] || arr[i];
+    }
+    return unwrappedListeners;
+  }
+
   public listeners(eventName: string | symbol): Function[] {
-    // TODO: This method needs to be written. Feel free to create a pull request!
-    return this.rawListeners(eventName);
+    return this._listeners(this, eventName, true);
+  }
+
+  public rawListeners(eventName: string | symbol): Function[] {
+    return this._listeners(this, eventName, false);
   }
 
   public off(eventName: string | symbol, listener: Function): EventEmitter {
@@ -102,23 +135,40 @@ class EventEmitter {
   // Wrapped function that calls EventEmitter.removeListener(eventName, self) on execution.
   private onceWrap(eventName: string | symbol, listener: Function): Function {
     const wrapper = function(
-      this: { eventName: string | symbol; listener: Function; rawListener: Function; context: EventEmitter },
+      this: {
+        eventName: string | symbol;
+        listener: Function;
+        rawListener: Function;
+        context: EventEmitter;
+      },
       ...args: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
     ): void {
       this.context.removeListener(this.eventName, this.rawListener);
       this.listener.apply(this.context, args);
     };
-    const wrapperContext = { eventName: eventName, listener: listener, rawListener: wrapper, context: this };
+    const wrapperContext = {
+      eventName: eventName,
+      listener: listener,
+      rawListener: wrapper,
+      context: this
+    };
     const wrapped = wrapper.bind(wrapperContext);
     wrapperContext.rawListener = wrapped;
+    wrapped.listener = listener;
     return wrapped;
   }
 
-  public prependListener(eventName: string | symbol, listener: Function): EventEmitter {
+  public prependListener(
+    eventName: string | symbol,
+    listener: Function
+  ): EventEmitter {
     return this._addListener(eventName, listener, true);
   }
 
-  public prependOnceListener(eventName: string | symbol, listener: Function): EventEmitter {
+  public prependOnceListener(
+    eventName: string | symbol,
+    listener: Function
+  ): EventEmitter {
     const wrapped: Function = this.onceWrap(eventName, listener);
     this.prependListener(eventName, wrapped);
     return this;
@@ -129,18 +179,21 @@ class EventEmitter {
       const listeners = (this.events.get(eventName) as Function[]).slice(); // Create a copy; We use it AFTER it's deleted.
       this.events.delete(eventName);
       for (const listener of listeners) {
-        this.emit('removeListener', eventName, listener);
+        this.emit("removeListener", eventName, listener);
       }
     }
     return this;
   }
 
-  public removeListener(eventName: string | symbol, listener: Function): EventEmitter {
+  public removeListener(
+    eventName: string | symbol,
+    listener: Function
+  ): EventEmitter {
     if (this.events.has(eventName)) {
       const arr: Function[] = this.events.get(eventName) as Function[];
       if (arr.indexOf(listener) !== -1) {
         arr.splice(arr.indexOf(listener), 1);
-        this.emit('removeListener', eventName, listener);
+        this.emit("removeListener", eventName, listener);
         if (arr.length === 0) {
           this.events.delete(eventName);
         }
@@ -152,14 +205,6 @@ class EventEmitter {
   public setMaxListeners(n: number): EventEmitter {
     this.maxListeners = n;
     return this;
-  }
-
-  public rawListeners(eventName: string | symbol): Function[] {
-    if (this.events.has(eventName)) {
-      return this.events.get(eventName) as Function[];
-    } else {
-      return [];
-    }
   }
 }
 
