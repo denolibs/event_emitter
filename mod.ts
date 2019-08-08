@@ -87,7 +87,7 @@ class EventEmitter {
     }
   }
 
-  _listeners(
+  private _listeners(
     target: EventEmitter,
     eventName: string | symbol,
     unwrap: boolean
@@ -95,7 +95,9 @@ class EventEmitter {
     if (!target.events.has(eventName)) {
       return [];
     }
-    const eventListeners: Function[] = target.events.get(eventName) as Function[];
+    const eventListeners: Function[] = target.events.get(
+      eventName
+    ) as Function[];
 
     return unwrap
       ? this.unwrapListeners(eventListeners)
