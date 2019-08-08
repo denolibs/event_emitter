@@ -1,4 +1,4 @@
-# deno_event_emitter
+# deno_event_emitter [![Build Status](https://travis-ci.org/ozjd/deno_event_emitter.svg?branch=master)](https://travis-ci.org/ozjd/deno_event_emitter)
 
 A NodeJS-like EventEmitter for Deno written in 100% Typescript.
 
