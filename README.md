@@ -4,10 +4,6 @@ A NodeJS-like EventEmitter for Deno written in 100% Typescript.
 
 ## Usage
 
-### Basic
-
-```TypeScript
-```
 ### Extend EventEmitter Class
 
 ```TypeScript
@@ -66,12 +62,6 @@ instance.createEvent();
     + [emitter.setMaxListeners](#emitter.setMaxListeners)
 
     + [emitter.rawListeners](#emitter.rawListeners)
-
-2. [Dependencies](#Dependencies)
-
-3. [Permissions](#Permissions)
-
-4. [Differences (between this and NodeJS version)](#Differences (between this and NodeJS version))
 
 ### Methods
 #### emitter.addListener
