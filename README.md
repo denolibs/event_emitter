@@ -33,35 +33,35 @@ instance.createEvent();
 
 1. [Methods](#Methods)
 
-    - [emitter.addListener](#emitter.addListener)
+   - [emitter.addListener](#emitter.addListener)
 
-    - [emitter.emit](#emitter.emit)
+   - [emitter.emit](#emitter.emit)
 
-    - [emitter.eventNames](#emitter.eventNames)
+   - [emitter.eventNames](#emitter.eventNames)
 
-    - [emitter.getMaxListeners](#emitter.getMaxListeners)
+   - [emitter.getMaxListeners](#emitter.getMaxListeners)
 
-    - [emitter.listenerCount](#emitter.listenerCount)
+   - [emitter.listenerCount](#emitter.listenerCount)
 
-    - [emitter.listener](#emitter.listener)
+   - [emitter.listener](#emitter.listener)
 
-    - [emitter.off](#emitter.off)
+   - [emitter.off](#emitter.off)
 
-    - [emitter.on](#emitter.on)
+   - [emitter.on](#emitter.on)
 
-    - [emitter.once](#emitter.once)
+   - [emitter.once](#emitter.once)
 
-    - [emitter.prependListener](#emitter.prependListener)
+   - [emitter.prependListener](#emitter.prependListener)
 
-    - [emitter.prependOnceListener](#emitter.prependOnceListener)
+   - [emitter.prependOnceListener](#emitter.prependOnceListener)
 
-    - [emitter.removeAllListeners](#emitter.removeAllListeners)
+   - [emitter.removeAllListeners](#emitter.removeAllListeners)
 
-    - [emitter.removeListener](#emitter.removeListener)
+   - [emitter.removeListener](#emitter.removeListener)
 
-    - [emitter.setMaxListeners](#emitter.setMaxListeners)
+   - [emitter.setMaxListeners](#emitter.setMaxListeners)
 
-    - [emitter.rawListeners](#emitter.rawListeners)
+   - [emitter.rawListeners](#emitter.rawListeners)
 
 ### Methods
 
