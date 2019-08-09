@@ -1,4 +1,4 @@
-import { runTests, test } from "https://deno.land/std/testing/mod.ts";
+import { runIfMain, RunOptions, test } from "https://deno.land/std/testing/mod.ts";
 import {
   assertEquals,
   assertNotEquals
@@ -161,4 +161,4 @@ test(function getMaxListeners(): void {
   assertNotEquals(myEmitter.getMaxListeners(), maxListenersBefore);
 });
 
-runTests();
+runIfMain(import.meta, {parallel: true, skip: true, only: true} as RunOptions);
