@@ -4,10 +4,33 @@ A NodeJS-like EventEmitter for Deno written in 100% Typescript.
 
 ## Usage
 
+### Basic
+
+```TypeScript
+import EventEmitter from "https://deno.land/x/event_emitter/mod.ts";
+
+const emitter = new EventEmitter();
+
+emitter.on("SayHello", (to: string) => {
+  if (!to) {
+    console.log("hello!");
+  } else {
+    console.log("hello" + to + "!");
+  }
+});
+
+emitter.emit("SayHello");
+// hello!
+emitter.emit("SayHello", " world");
+// hello world!
+emitter.emit("SayHello", ", again, world");
+// hello, again, world!
+```
+
 ### Extend EventEmitter Class
 
 ```TypeScript
-import EventEmitter from 'https://raw.github.com/ozjd/deno_event_emitter/master/mod.ts';
+import EventEmitter from 'https://deno.land/x/event_emitter/mod.ts';
 
 class NewClass extends EventEmitter {
   public constructor() {
@@ -25,6 +48,7 @@ instance.on('event', (message: string): void => {
   console.log(`Message received: ${message}`);
 });
 instance.createEvent();
+// Message received: The createEvent() method was called
 ```
 
 ## API
@@ -33,41 +57,41 @@ instance.createEvent();
 
 1. [Methods](#Methods)
 
-   - [emitter.addListener](#emitter.addListener)
+    + [emitter.addListener](#emitter.addListener)
 
-   - [emitter.emit](#emitter.emit)
+    + [emitter.emit](#emitter.emit)
 
-   - [emitter.eventNames](#emitter.eventNames)
+    + [emitter.eventNames](#emitter.eventNames)
 
-   - [emitter.getMaxListeners](#emitter.getMaxListeners)
+    + [emitter.getMaxListeners](#emitter.getMaxListeners)
 
-   - [emitter.listenerCount](#emitter.listenerCount)
+    + [emitter.listenerCount](#emitter.listenerCount)
 
-   - [emitter.listener](#emitter.listener)
+    + [emitter.listener](#emitter.listener)
 
-   - [emitter.off](#emitter.off)
+    + [emitter.off](#emitter.off)
 
-   - [emitter.on](#emitter.on)
+    + [emitter.on](#emitter.on)
 
-   - [emitter.once](#emitter.once)
+    + [emitter.once](#emitter.once)
 
-   - [emitter.prependListener](#emitter.prependListener)
+    + [emitter.prependListener](#emitter.prependListener)
 
-   - [emitter.prependOnceListener](#emitter.prependOnceListener)
+    + [emitter.prependOnceListener](#emitter.prependOnceListener)
 
-   - [emitter.removeAllListeners](#emitter.removeAllListeners)
+    + [emitter.removeAllListeners](#emitter.removeAllListeners)
 
-   - [emitter.removeListener](#emitter.removeListener)
+    + [emitter.removeListener](#emitter.removeListener)
 
-   - [emitter.setMaxListeners](#emitter.setMaxListeners)
+    + [emitter.setMaxListeners](#emitter.setMaxListeners)
 
-   - [emitter.rawListeners](#emitter.rawListeners)
+    + [emitter.rawListeners](#emitter.rawListeners)
 
 ### Methods
 
 #### emitter.addListener
 
-##### `emitter.addListener(eventName: string | symbol, listener: Function);`  
+##### `emitter.addListener(eventName: string | symbol, listener: Function);`
 Alias for ``emitter.on(eventName, listener);``  
 
 #### emitter.emit
@@ -140,7 +164,7 @@ By default EventEmitters will print a warning if more than ``10`` listeners are 
 ##### `emitter.rawListeners(eventName: string | symbol)`  
 Returns a copy of the array of listeners for the event named ``eventName``, including any wrappers (such as those created by ``.once()``).
 
-## Dependancies
+## Depenencies
 
 None!
 
