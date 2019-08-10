@@ -53,7 +53,7 @@ instance.createEvent();
 
 ## Documentation
 
-[API](https://github.com/ozjd/deno_event_emitter/blob/master/docs/API.md)
+[API](https://github.com/ozjd/deno_event_emitter/blob/master/docs/api.md)
 
 ## Dependencies
 
