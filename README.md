@@ -51,6 +51,10 @@ instance.createEvent();
 // Message received: The createEvent() method was called
 ```
 
+## Documentation
+
+[API](https://github.com/ozjd/deno_event_emitter/blob/master/docs/API.md)
+
 ## Dependencies
 
 None!
