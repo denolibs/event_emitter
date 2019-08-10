@@ -164,7 +164,7 @@ By default EventEmitters will print a warning if more than ``10`` listeners are 
 ##### `emitter.rawListeners(eventName: string | symbol) : Function[]`  
 Returns a copy of the array of listeners for the event named ``eventName``, including any wrappers (such as those created by ``.once()``).
 
-## Depenencies
+## Dependencies
 
 None!
 
@@ -176,7 +176,7 @@ None!
 
 - No runtime type checks (Deno / TypeScript support compile time checks)
 - Error handling may require some more work.
-- Does not implemented deprecated methods
+- Does not implement deprecated methods
 
 ## Licensing
 
