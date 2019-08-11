@@ -191,7 +191,7 @@ class EventEmitter {
       }
     } else {
       const eventList: [string | symbol] = this.eventNames();
-      eventList.map((value: string) => {
+      eventList.map((value: string | symbol) => {
         this.events.set(value, []);
       });
     }
