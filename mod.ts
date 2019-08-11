@@ -176,14 +176,26 @@ class EventEmitter {
     return this;
   }
 
-  public removeAllListeners(eventName: string | symbol): EventEmitter {
+  public removeAllListeners(eventName?: string | symbol): EventEmitter {
+    if (this.events === undefined) {
+      return this;
+    }
+
     if (this.events.has(eventName)) {
       const listeners = (this.events.get(eventName) as Function[]).slice(); // Create a copy; We use it AFTER it's deleted.
-      this.events.delete(eventName);
+
+      this.events.set(eventName, []);
+
       for (const listener of listeners) {
         this.emit("removeListener", eventName, listener);
       }
+    } else {
+      const eventList: [string | symbol] = this.eventNames();
+      eventList.map((value: string) => {
+        this.events.set(value, []);
+      });
     }
+
     return this;
   }
 
