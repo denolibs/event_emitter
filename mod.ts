@@ -183,16 +183,14 @@ class EventEmitter {
 
     if (this.events.has(eventName)) {
       const listeners = (this.events.get(eventName) as Function[]).slice(); // Create a copy; We use it AFTER it's deleted.
-
-      this.events.set(eventName, []);
-
+      this.events.delete(eventName);
       for (const listener of listeners) {
         this.emit("removeListener", eventName, listener);
       }
     } else {
       const eventList: [string | symbol] = this.eventNames();
       eventList.map((value: string | symbol) => {
-        this.events.set(value, []);
+        this.removeAllListeners(value)
       });
     }
 
