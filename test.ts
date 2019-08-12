@@ -66,6 +66,24 @@ test(function removeAllListenersFromSpecifiedEvent(): void {
   assertEquals(myEmitter.listenerCount("eventName1"), 0);
 });
 
+test(function removeAllListenersFromAllEvents(): void {
+  const myEmitter = new EventEmitter();
+
+  myEmitter.on("eventName1", eventListener1);
+  myEmitter.on("eventName1", eventListener2);
+  myEmitter.on("eventName2", eventListener3);
+  myEmitter.on("eventName2", eventListener4);
+  myEmitter.removeAllListeners();
+
+  const eventNames = myEmitter.eventNames();
+  let nListener = 0;
+  for (let i = 0; i < eventNames.length; i++) {
+    nListener += myEmitter.listenerCount(eventNames[i]);
+  }
+
+  assertEquals(nListener, 0);
+});
+
 test(function emitRegisteredEvent(): void {
   const myEmitter = new EventEmitter();
 
