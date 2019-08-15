@@ -73,4 +73,4 @@ None!
 
 Licensed under the permissive MIT license. See [LICENCE file](https://github.com/denolibs/event_emitter/blob/master/LICENSE) for more information
 
-# Pull requests welcome!
+<sup>This project is based on the open source [DenoLibs](https://github.com/denolibs) / **[deno_template](https://github.com/denolibs/deno_template)** template.</sup>

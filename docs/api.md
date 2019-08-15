@@ -1,4 +1,4 @@
-# API
+# event_emitter API
 
 Class Methods
 

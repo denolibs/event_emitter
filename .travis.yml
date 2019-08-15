@@ -6,4 +6,4 @@ os:
 
 before_script: curl -sL https://deno.land/x/install/install.sh | sh
 
-script: $HOME/.deno/bin/deno run ./test.ts
+script: $HOME/.deno/bin/deno run ./test/mod.ts
