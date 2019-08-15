@@ -1,10 +1,4 @@
-/*
- * EventEmitter for Deno
- *
- * Homepage: https://github.com/ozjd/deno_EventEmitter
- * MIT License - Copyright (c) 2019 Joshua Davison and contributors
- * Documentation: https://nodejs.org/api/events.html#events_class_eventemitter
- */
+// Copyright (c) 2019 Denolibs authors. All rights reserved. MIT license.
 
 class EventEmitter {
   public static defaultMaxListeners: number = 10;

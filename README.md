@@ -1,4 +1,4 @@
-# deno_event_emitter [![Build Status](https://travis-ci.org/ozjd/deno_event_emitter.svg?branch=master)](https://travis-ci.org/ozjd/deno_event_emitter)
+# event_emitter [![Build Status](https://travis-ci.org/denolibs/event_emitter.svg?branch=master)](https://travis-ci.org/denolibs/event_emitter)
 
 A NodeJS-like EventEmitter for Deno written in 100% Typescript.
 
@@ -53,7 +53,7 @@ instance.createEvent();
 
 ## Documentation
 
-[API](https://github.com/ozjd/deno_event_emitter/blob/master/docs/api.md)
+[API](https://github.com/denolibs/event_emitter/blob/master/docs/api.md)
 
 ## Dependencies
 
@@ -71,6 +71,6 @@ None!
 
 ## Licensing
 
-Licensed under the permissive MIT license. See [LICENCE file](https://github.com/ozjd/deno_event_emitter/blob/master/LICENSE) for more information
+Licensed under the permissive MIT license. See [LICENCE file](https://github.com/denolibs/event_emitter/blob/master/LICENSE) for more information
 
 # Pull requests welcome!
