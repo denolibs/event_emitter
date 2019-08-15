@@ -13,7 +13,7 @@ class EventEmitter {
     eventName: string | symbol,
     listener: Function,
     prepend: boolean
-  ): EventEmitter {
+  ): this {
     this.emit("newListener", eventName, listener);
     if (this.events.has(eventName)) {
       const listeners = this.events.get(eventName) as Function[];
@@ -42,7 +42,7 @@ class EventEmitter {
   public addListener(
     eventName: string | symbol,
     listener: Function
-  ): EventEmitter {
+  ): this {
     return this._addListener(eventName, listener, false);
   }
 
@@ -114,15 +114,15 @@ class EventEmitter {
     return this._listeners(this, eventName, false);
   }
 
-  public off(eventName: string | symbol, listener: Function): EventEmitter {
+  public off(eventName: string | symbol, listener: Function): this {
     return this.removeListener(eventName, listener);
   }
 
-  public on(eventName: string | symbol, listener: Function): EventEmitter {
+  public on(eventName: string | symbol, listener: Function): this {
     return this.addListener(eventName, listener);
   }
 
-  public once(eventName: string | symbol, listener: Function): EventEmitter {
+  public once(eventName: string | symbol, listener: Function): this {
     const wrapped: Function = this.onceWrap(eventName, listener);
     this.on(eventName, wrapped);
     return this;
@@ -157,20 +157,20 @@ class EventEmitter {
   public prependListener(
     eventName: string | symbol,
     listener: Function
-  ): EventEmitter {
+  ): this {
     return this._addListener(eventName, listener, true);
   }
 
   public prependOnceListener(
     eventName: string | symbol,
     listener: Function
-  ): EventEmitter {
+  ): this {
     const wrapped: Function = this.onceWrap(eventName, listener);
     this.prependListener(eventName, wrapped);
     return this;
   }
 
-  public removeAllListeners(eventName?: string | symbol): EventEmitter {
+  public removeAllListeners(eventName?: string | symbol): this {
     if (this.events === undefined) {
       return this;
     }
@@ -194,7 +194,7 @@ class EventEmitter {
   public removeListener(
     eventName: string | symbol,
     listener: Function
-  ): EventEmitter {
+  ): this {
     if (this.events.has(eventName)) {
       const arr: Function[] = this.events.get(eventName) as Function[];
       if (arr.indexOf(listener) !== -1) {
@@ -208,7 +208,7 @@ class EventEmitter {
     return this;
   }
 
-  public setMaxListeners(n: number): EventEmitter {
+  public setMaxListeners(n: number): this {
     this.maxListeners = n;
     return this;
   }
