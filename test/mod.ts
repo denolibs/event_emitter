@@ -5,7 +5,7 @@ import {
   assertEquals,
   assertNotEquals
 } from "https://deno.land/std/testing/asserts.ts";
-import EventEmitter from "./mod.ts";
+import EventEmitter from "../mod.ts";
 
 function hasListenerProp(cur: any): boolean {
   return cur.hasOwnProperty("listener");
