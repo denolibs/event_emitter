@@ -197,12 +197,8 @@ class EventEmitter {
   ): this {
     if (this.events.has(eventName)) {
       const arr: Function[] = this.events.get(eventName) as Function[];
-      if (arr.indexOf(listener) !== -1) {
-        arr.splice(arr.indexOf(listener), 1);
-        this.emit("removeListener", eventName, listener);
-        if (arr.length === 0) {
-          this.events.delete(eventName);
-        }
+      if (arr.length > 0) {
+        arr.splice(arr.indexOf(listener), 1)
       }
     }
     return this;

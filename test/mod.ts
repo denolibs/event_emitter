@@ -1,15 +1,11 @@
 // Copyright (c) 2019 Denolibs authors. All rights reserved. MIT license.
 
-import { runTests, test } from "https://deno.land/std/testing/mod.ts";
+import { runIfMain, test } from "https://deno.land/std/testing/mod.ts";
 import {
   assertEquals,
   assertNotEquals
 } from "https://deno.land/std/testing/asserts.ts";
 import EventEmitter from "../mod.ts";
-
-function hasListenerProp(cur: any): boolean {
-  return cur.hasOwnProperty("listener");
-}
 
 function eventListener1(): void {
   console.log("First event occured!");
@@ -40,145 +36,188 @@ test(function registerListeners(): void {
   assertEquals(myEmitter.listenerCount("eventName"), 2);
 });
 
-test(function removeListeners(): void {
-  const myEmitter = new EventEmitter();
+test({
+  name: "Emit listeners of registered event",
+  fn(): void {
+    const myEmitter = new EventEmitter();
 
-  myEmitter.on("eventName", eventListener1);
-  myEmitter.on("eventName", eventListener2);
-  myEmitter.on("eventName", eventListener3);
-  myEmitter.on("eventName", eventListener4);
-  myEmitter.off("eventName", eventListener2);
-
-  assertEquals(myEmitter.listeners("eventName"), [
-    eventListener1,
-    eventListener3,
-    eventListener4
-  ]);
-});
-
-test(function removeAllListenersFromSpecifiedEvent(): void {
-  const myEmitter = new EventEmitter();
-
-  myEmitter.on("eventName1", eventListener1);
-  myEmitter.on("eventName1", eventListener2);
-  myEmitter.on("eventName2", eventListener3);
-  myEmitter.on("eventName2", eventListener4);
-  myEmitter.removeAllListeners("eventName1");
-
-  assertEquals(myEmitter.listenerCount("eventName1"), 0);
-});
-
-test(function removeAllListenersFromAllEvents(): void {
-  const myEmitter = new EventEmitter();
-
-  myEmitter.on("eventName1", eventListener1);
-  myEmitter.on("eventName1", eventListener2);
-  myEmitter.on("eventName2", eventListener3);
-  myEmitter.on("eventName2", eventListener4);
-  myEmitter.removeAllListeners();
-
-  const eventNames = myEmitter.eventNames();
-  let nListener = 0;
-  for (let i = 0; i < eventNames.length; i++) {
-    nListener += myEmitter.listenerCount(eventNames[i]);
+    myEmitter.on("eventName", eventListener1);
+    myEmitter.on("eventName", eventListener2);
+    myEmitter.on("eventName", eventListener3);
+    assertEquals(myEmitter.emit("eventName"), true);
   }
-
-  assertEquals(nListener, 0);
 });
 
-test(function emitRegisteredEvent(): void {
-  const myEmitter = new EventEmitter();
+test({
+  name: "Emit with callback",
+  fn(): void {
+    const myEmitter = new EventEmitter();
 
-  myEmitter.on("eventName", eventListener1);
-  myEmitter.on("eventName", eventListener2);
-  myEmitter.on("eventName", eventListener3);
-
-  assertEquals(myEmitter.emit("eventName"), true);
+    myEmitter.on("eventName", StatusListener);
+    assertEquals(myEmitter.emit("eventName", 200, "OK"), true);
+  }
 });
 
-test(function emitWithCallbackParameters(): void {
-  const myEmitter = new EventEmitter();
+test({
+  name: "Emit listener once",
+  fn(): void {
+    const myEmitter = new EventEmitter();
 
-  myEmitter.on("eventName", StatusListener);
+    myEmitter.once("eventNameOnce", eventListener1);
+    myEmitter.once("eventNameOnce", eventListener2);
+    myEmitter.once("eventNameOnce", eventListener3);
+    myEmitter.once("eventNameOnce", eventListener4);
+    myEmitter.emit("eventNameOnce");
 
-  assertEquals(myEmitter.emit("eventName", 200, "OK"), true);
+    assertEquals(myEmitter.listenerCount("eventNameOnce"), 0);
+  }
 });
 
-test(function emitOnce(): void {
-  const myEmitter = new EventEmitter();
+test({
+  name: "Emit unregistered event",
+  fn(): void {
+    const myEmitter = new EventEmitter();
 
-  myEmitter.once("eventNameOnce", eventListener1);
-  myEmitter.once("eventNameOnce", eventListener2);
-  myEmitter.once("eventNameOnce", eventListener3);
-  myEmitter.once("eventNameOnce", eventListener4);
-  myEmitter.emit("eventNameOnce");
+    myEmitter.on("eventName", eventListener1);
+    myEmitter.on("eventName", eventListener2);
+    myEmitter.on("eventName", eventListener3);
 
-  assertEquals(myEmitter.listenerCount("eventNameOnce"), 0);
+    assertEquals(myEmitter.emit("eventNameNotRegistered"), false);
+  }
 });
 
-test(function emitUnRegisteredEvent(): void {
-  const myEmitter = new EventEmitter();
+test({
+  name: "Get all listeners from eventname specified",
+  fn(): void {
+    const myEmitter = new EventEmitter();
 
-  myEmitter.on("eventName", eventListener1);
-  myEmitter.on("eventName", eventListener2);
-  myEmitter.on("eventName", eventListener3);
+    const eventListenersTrue: Function[] = [
+      eventListener1,
+      eventListener2,
+      eventListener3,
+      eventListener4
+    ];
 
-  assertEquals(myEmitter.emit("eventNameNotRegistered"), false);
+    const eventListenersFalse: Function[] = [
+      eventListener4,
+      eventListener3,
+      eventListener2,
+      eventListener1
+    ];
+
+    myEmitter.on("eventName1", eventListener1);
+    myEmitter.on("eventName1", eventListener2);
+    myEmitter.on("eventName1", eventListener3);
+    myEmitter.on("eventName1", eventListener4);
+
+    assertEquals(myEmitter.listeners("eventName1"), eventListenersTrue);
+    assertNotEquals(myEmitter.listeners("eventName1"), eventListenersFalse);
+  }
 });
 
-test(function getListenersOfEventName(): void {
-  const myEmitter = new EventEmitter();
-
-  const eventListenersTrue: Function[] = [
-    eventListener1,
-    eventListener2,
-    eventListener3,
-    eventListener4
-  ];
-
-  const eventListenersFalse: Function[] = [
-    eventListener4,
-    eventListener3,
-    eventListener2,
-    eventListener1
-  ];
-
-  myEmitter.on("eventName1", eventListener1);
-  myEmitter.on("eventName1", eventListener2);
-  myEmitter.on("eventName1", eventListener3);
-  myEmitter.on("eventName1", eventListener4);
-
-  assertEquals(myEmitter.listeners("eventName1"), eventListenersTrue);
-  assertNotEquals(myEmitter.listeners("eventName1"), eventListenersFalse);
+test({
+  name: "Get default maximal listeners per event",
+  fn(): void {
+    const myEmitter = new EventEmitter();
+    assertEquals(myEmitter.getMaxListeners(), 10);
+  }
 });
 
-test(function listenerAccessOnRawListeners(): void {
-  const myEmitter = new EventEmitter();
-  myEmitter.once("eventNameOnce", eventListener1);
-  myEmitter.once("eventNameOnce", eventListener2);
-  myEmitter.once("eventNameOnce", eventListener3);
-  myEmitter.once("eventNameOnce", eventListener4);
-  const listOfListeners: Function[] = myEmitter.rawListeners("eventNameOnce");
-  assertEquals(listOfListeners.every(hasListenerProp), true);
+test({
+  name: "Set maxListeners value",
+  fn(): void {
+    const myEmitter = new EventEmitter();
+    assertEquals(myEmitter.setMaxListeners(5), myEmitter);
+  }
 });
 
-test(function getDefaultMaxListeners(): void {
-  const myEmitter = new EventEmitter();
-  assertEquals(myEmitter.getMaxListeners(), 10);
+test({
+  name: "Get maxListeners value",
+  fn(): void {
+    const myEmitter = new EventEmitter();
+
+    const maxListenersBefore = myEmitter.getMaxListeners();
+    myEmitter.setMaxListeners(5);
+    assertEquals(myEmitter.getMaxListeners(), 5);
+    assertNotEquals(myEmitter.getMaxListeners(), maxListenersBefore);
+  }
 });
 
-test(function setMaxListeners(): void {
-  const myEmitter = new EventEmitter();
-  assertEquals(myEmitter.setMaxListeners(5), myEmitter);
+test({
+  name: "Add listeners",
+  fn(): void {
+    const myEmitter = new EventEmitter();
+
+    myEmitter.on("eventName", eventListener1);
+    myEmitter.on("eventName", eventListener2);
+
+    assertEquals(myEmitter.listenerCount("eventName"), 2);
+  }
 });
 
-test(function getMaxListeners(): void {
-  const myEmitter = new EventEmitter();
+test({
+  name: "Remove listeners",
+  fn(): void {
+    const myEmitter = new EventEmitter();
 
-  const maxListenersBefore = myEmitter.getMaxListeners();
-  myEmitter.setMaxListeners(5);
-  assertEquals(myEmitter.getMaxListeners(), 5);
-  assertNotEquals(myEmitter.getMaxListeners(), maxListenersBefore);
+    myEmitter.on("eventName", eventListener1);
+    myEmitter.on("eventName", eventListener2);
+    myEmitter.on("eventName", eventListener3);
+    myEmitter.on("eventName", eventListener4);
+    myEmitter.off("eventName", eventListener2);
+
+    assertEquals(myEmitter.listeners("eventName"), [
+      eventListener1,
+      eventListener3,
+      eventListener4
+    ]);
+  }
 });
 
-runTests();
+test({
+  name: "Remove all listeners from specified event",
+  fn(): void {
+    const myEmitter = new EventEmitter();
+
+    myEmitter.on("eventName1", eventListener1);
+    myEmitter.on("eventName1", eventListener2);
+    myEmitter.on("eventName2", eventListener3);
+    myEmitter.on("eventName2", eventListener4);
+    myEmitter.removeAllListeners("eventName1");
+    assertEquals(myEmitter.emit("eventName1"), false);
+    assertEquals(myEmitter.emit("eventName2"), true);
+
+  }
+});
+
+test({
+  name: "Remove all listeners including once listeners from specified event",
+  fn(): void {
+    const myEmitter = new EventEmitter();
+
+    myEmitter.on("eventName1", eventListener1);
+    myEmitter.on("eventName1", eventListener2);
+    myEmitter.once("eventName1", eventListener3);
+    myEmitter.once("eventName1", eventListener4);
+    myEmitter.removeAllListeners("eventName1");
+    assertEquals(myEmitter.emit("eventName1"), false);
+    assertEquals(myEmitter.listeners("eventName1"), []);
+
+  }
+})
+
+test({
+  name: "Remove all listeners from all events",
+  fn(): void {
+    const myEmitter = new EventEmitter();
+
+    myEmitter.on("eventName1", eventListener1);
+    myEmitter.on("eventName1", eventListener2);
+    myEmitter.on("eventName2", eventListener3);
+    myEmitter.on("eventName2", eventListener4);
+    myEmitter.removeAllListeners();
+    assertEquals(myEmitter.eventNames(), []);
+  }
+});
+
+runIfMain(import.meta, { parallel: true });
