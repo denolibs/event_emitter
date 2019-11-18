@@ -27,13 +27,16 @@ function StatusListener(code: number, msg: string): void {
   console.log(`Got ${code} and ${msg}`);
 }
 
-test(function registerListeners(): void {
+test({
+  name: "Add listeners",
+  fn(): void {
   const myEmitter = new EventEmitter();
 
   myEmitter.on("eventName", eventListener1);
   myEmitter.on("eventName", eventListener2);
 
   assertEquals(myEmitter.listenerCount("eventName"), 2);
+  }
 });
 
 test({
@@ -68,7 +71,6 @@ test({
     myEmitter.once("eventNameOnce", eventListener3);
     myEmitter.once("eventNameOnce", eventListener4);
     myEmitter.emit("eventNameOnce");
-
     assertEquals(myEmitter.listenerCount("eventNameOnce"), 0);
   }
 });
@@ -156,7 +158,7 @@ test({
 });
 
 test({
-  name: "Remove listeners",
+  name: "Remove specific listener",
   fn(): void {
     const myEmitter = new EventEmitter();
 
@@ -186,7 +188,32 @@ test({
     myEmitter.removeAllListeners("eventName1");
     assertEquals(myEmitter.emit("eventName1"), false);
     assertEquals(myEmitter.emit("eventName2"), true);
+  }
+});
 
+test({
+  name: "Remove specific once listener",
+  fn(): void {
+    const myEmitter = new EventEmitter();
+
+    myEmitter.once("eventName", eventListener1);
+    myEmitter.once("eventName", eventListener2);
+    myEmitter.off("eventName", eventListener1);
+    assertEquals(myEmitter.listeners("eventName"), [eventListener2]);
+  }
+});
+
+test({
+  name: "Remove all listeners from all events",
+  fn(): void {
+    const myEmitter = new EventEmitter();
+
+    myEmitter.on("eventName1", eventListener1);
+    myEmitter.on("eventName1", eventListener2);
+    myEmitter.on("eventName2", eventListener3);
+    myEmitter.on("eventName2", eventListener4);
+    myEmitter.removeAllListeners();
+    assertEquals(myEmitter.eventNames(), []);
   }
 });
 
@@ -202,22 +229,7 @@ test({
     myEmitter.removeAllListeners("eventName1");
     assertEquals(myEmitter.emit("eventName1"), false);
     assertEquals(myEmitter.listeners("eventName1"), []);
-
   }
 })
-
-test({
-  name: "Remove all listeners from all events",
-  fn(): void {
-    const myEmitter = new EventEmitter();
-
-    myEmitter.on("eventName1", eventListener1);
-    myEmitter.on("eventName1", eventListener2);
-    myEmitter.on("eventName2", eventListener3);
-    myEmitter.on("eventName2", eventListener4);
-    myEmitter.removeAllListeners();
-    assertEquals(myEmitter.eventNames(), []);
-  }
-});
 
 runIfMain(import.meta, { parallel: true });
