@@ -196,13 +196,13 @@ class EventEmitter {
     listener: Function
   ): this {
     if (this.events.has(eventName)) {
-      const arr = this.events.get(eventName);
+      const arr: Function[] = this.events.get(eventName) as Function[];
       if (!arr) {
         return;
       }
 
-      const index = arr.findIndex((cb: any) => {
-        return cb === listener || cb.listener === listener;
+      const index = arr.findIndex((cb: Function) : Boolean => {
+        return cb === listener || cb["listener"] === listener;
       });
 
       if (index > -1) {

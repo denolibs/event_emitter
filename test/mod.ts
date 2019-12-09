@@ -177,14 +177,14 @@ test({
 });
 
 test({
-  name: "Remove all listeners from specified event",
+  name: "Remove all listeners from specified event including once listeners",
   fn(): void {
     const myEmitter = new EventEmitter();
 
     myEmitter.on("eventName1", eventListener1);
-    myEmitter.on("eventName1", eventListener2);
+    myEmitter.once("eventName1", eventListener2);
     myEmitter.on("eventName2", eventListener3);
-    myEmitter.on("eventName2", eventListener4);
+    myEmitter.once("eventName2", eventListener4);
     myEmitter.removeAllListeners("eventName1");
     assertEquals(myEmitter.emit("eventName1"), false);
     assertEquals(myEmitter.emit("eventName2"), true);
@@ -204,14 +204,14 @@ test({
 });
 
 test({
-  name: "Remove all listeners from all events",
+  name: "Remove all listeners from all events including once listeners",
   fn(): void {
     const myEmitter = new EventEmitter();
 
     myEmitter.on("eventName1", eventListener1);
-    myEmitter.on("eventName1", eventListener2);
+    myEmitter.once("eventName1", eventListener2);
     myEmitter.on("eventName2", eventListener3);
-    myEmitter.on("eventName2", eventListener4);
+    myEmitter.once("eventName2", eventListener4);
     myEmitter.removeAllListeners();
     assertEquals(myEmitter.eventNames(), []);
   }
