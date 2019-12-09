@@ -201,7 +201,7 @@ class EventEmitter {
         return;
       }
 
-      const index = arr.findIndex((cb: Function) : Boolean => {
+      const index = arr.findIndex((cb: Function) : boolean => {
         return cb === listener || cb["listener"] === listener;
       });
 
