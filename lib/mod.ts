@@ -1,5 +1,9 @@
 // Copyright (c) 2019 Denolibs authors. All rights reserved. MIT license.
 
+interface ListenerFunction extends Function {
+  listener?: Function;
+}
+
 class EventEmitter {
   public static defaultMaxListeners: number = 10;
   private maxListeners: number | undefined;
@@ -39,10 +43,7 @@ class EventEmitter {
     return this;
   }
 
-  public addListener(
-    eventName: string | symbol,
-    listener: Function
-  ): this {
+  public addListener(eventName: string | symbol, listener: Function): this {
     return this._addListener(eventName, listener, false);
   }
 
@@ -89,7 +90,8 @@ class EventEmitter {
     if (!target.events.has(eventName)) {
       return [];
     }
-    const eventListeners: Function[] = target.events.get(
+
+    const eventListeners: ListenerFunction[] = target.events.get(
       eventName
     ) as Function[];
 
@@ -98,7 +100,7 @@ class EventEmitter {
       : eventListeners.slice(0);
   }
 
-  private unwrapListeners(arr: Function[]): Function[] {
+  private unwrapListeners(arr: ListenerFunction[]): Function[] {
     let unwrappedListeners: Function[] = new Array(arr.length) as Function[];
     for (let i = 0; i < arr.length; i++) {
       unwrappedListeners[i] = arr[i]["listener"] || arr[i];
@@ -130,7 +132,7 @@ class EventEmitter {
 
   // Wrapped function that calls EventEmitter.removeListener(eventName, self) on execution.
   private onceWrap(eventName: string | symbol, listener: Function): Function {
-    const wrapper = function(
+    const wrapper: ListenerFunction = function (
       this: {
         eventName: string | symbol;
         listener: Function;
@@ -154,10 +156,7 @@ class EventEmitter {
     return wrapped;
   }
 
-  public prependListener(
-    eventName: string | symbol,
-    listener: Function
-  ): this {
+  public prependListener(eventName: string | symbol, listener: Function): this {
     return this._addListener(eventName, listener, true);
   }
 
@@ -175,7 +174,7 @@ class EventEmitter {
       return this;
     }
 
-    if (this.events.has(eventName)) {
+    if (eventName && this.events.has(eventName)) {
       const listeners = (this.events.get(eventName) as Function[]).slice(); // Create a copy; We use it AFTER it's deleted.
       this.events.delete(eventName);
       for (const listener of listeners) {
@@ -184,17 +183,14 @@ class EventEmitter {
     } else {
       const eventList: [string | symbol] = this.eventNames();
       eventList.map((value: string | symbol) => {
-        this.removeAllListeners(value)
+        this.removeAllListeners(value);
       });
     }
 
     return this;
   }
 
-  public removeListener(
-    eventName: string | symbol,
-    listener: Function
-  ): this {
+  public removeListener(eventName: string | symbol, listener: Function): this {
     if (this.events.has(eventName)) {
       const arr: Function[] = this.events.get(eventName) as Function[];
       if (arr.indexOf(listener) !== -1) {
