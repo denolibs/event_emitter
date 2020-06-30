@@ -1,6 +1,6 @@
 // Copyright (c) 2019 Denolibs authors. All rights reserved. MIT license.
 
-import { runIfMain, test } from "https://deno.land/std/testing/mod.ts";
+// import { runIfMain, test } from "https://deno.land/std/testing/mod.ts";
 import {
   assertEquals,
   assertNotEquals
@@ -27,7 +27,7 @@ function StatusListener(code: number, msg: string): void {
   console.log(`Got ${code} and ${msg}`);
 }
 
-test({
+Deno.test({
   name: "Add listeners",
   fn(): void {
   const myEmitter = new EventEmitter();
@@ -39,7 +39,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Emit listeners of registered event",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -51,7 +51,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Emit with callback",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -61,7 +61,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Emit listener once",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -75,7 +75,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Emit unregistered event",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -88,7 +88,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Get all listeners from eventname specified",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -117,7 +117,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Get default maximal listeners per event",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -125,7 +125,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Set maxListeners value",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -133,7 +133,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Get maxListeners value",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -145,7 +145,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Add listeners",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -157,7 +157,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Remove specific listener",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -176,7 +176,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Remove all listeners from specified event including once listeners",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -191,7 +191,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Remove specific once listener",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -203,7 +203,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Remove all listeners from all events including once listeners",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -217,7 +217,7 @@ test({
   }
 });
 
-test({
+Deno.test({
   name: "Remove all listeners including once listeners from specified event",
   fn(): void {
     const myEmitter = new EventEmitter();
@@ -232,4 +232,4 @@ test({
   }
 })
 
-runIfMain(import.meta, { parallel: true });
+// runIfMain(import.meta, { parallel: true });
