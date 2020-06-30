@@ -193,11 +193,20 @@ class EventEmitter {
   public removeListener(eventName: string | symbol, listener: Function): this {
     if (this.events.has(eventName)) {
       const arr: Function[] = this.events.get(eventName) as Function[];
-      if (arr.indexOf(listener) !== -1) {
-        arr.splice(arr.indexOf(listener), 1);
-        this.emit("removeListener", eventName, listener);
-        if (arr.length === 0) {
+      if (!arr) {
+        return this;
+      }
+
+      const index = arr.findIndex((cb: Function) : boolean => {
+        return cb === listener || (cb as ListenerFunction)["listener"] === listener;
+      });
+
+      if (index > -1) {
+        if (arr.length === 1) {
           this.events.delete(eventName);
+        } else {
+          arr.splice(index, 1);
+          this.emit("removeListener", eventName, listener);
         }
       }
     }
