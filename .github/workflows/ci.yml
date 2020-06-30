@@ -4,7 +4,7 @@ on: [push, pull_request, release]
 
 jobs:
   test:
-    name: test bwt on ${{ matrix.os }}
+    name: test event_emitter on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
