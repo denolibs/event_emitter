@@ -1,6 +1,5 @@
 // Copyright (c) 2019 Denolibs authors. All rights reserved. MIT license.
 
-// import { runIfMain, test } from "https://deno.land/std/testing/mod.ts";
 import {
   assertEquals,
   assertNotEquals
@@ -231,5 +230,3 @@ Deno.test({
     assertEquals(myEmitter.listeners("eventName1"), []);
   }
 })
-
-// runIfMain(import.meta, { parallel: true });
